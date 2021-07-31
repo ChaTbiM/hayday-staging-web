@@ -1,27 +1,29 @@
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import {
   BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
 import './App.css';
-import Dashboard from './scenes/Dashboard';
+import 'antd/dist/antd.css';
 import Login from './scenes/Login/Login';
+import Dashboard from './shared/Layout/Dashboard';
 
 function App() {
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <Login />
-        </Route>
-        <Route path="/login" >
-          <Login />
-        </Route>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <Login />
+          </Route>
+          <Route path="/login" >
+            <Login />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 

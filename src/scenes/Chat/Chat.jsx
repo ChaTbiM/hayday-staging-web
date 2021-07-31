@@ -1,11 +1,9 @@
 import React from 'react'
 
-function Dashboard() {
+export default function Chat() {
     return (
         <div>
-            Dashboard Page
+            Chat screen
         </div>
     )
 }
-
-export default Dashboard

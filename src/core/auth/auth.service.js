@@ -5,9 +5,11 @@ const getStoredUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 }
 
+
 const getStoredToken = () => {
     return JSON.parse(localStorage.getItem(TOKEN_KEY));
 }
+
 
 const getAuthHeader = () => {
     const token = getStoredToken();
