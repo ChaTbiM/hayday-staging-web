@@ -36,6 +36,14 @@
     justify-content: space-between;
 }
 
+.drawer {
+    :global {
+        .ant-drawer-body {
+            padding: 0;
+        }
+    }
+}
+
 .avatar,
 .menu__outlined1 {
     font-size: 1.5rem;

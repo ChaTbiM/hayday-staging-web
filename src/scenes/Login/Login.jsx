@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import http from '../../axios.config';
 import { TOKEN_KEY } from '../../core/auth/auth.service';
-import styles from "./Login.module.css";
+import styles from "./Login.module.scss";
 
 function Login() {
     const history = useHistory();
