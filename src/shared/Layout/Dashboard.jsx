@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { MenuOutlined, MessageOutlined, ProjectOutlined, UserOutlined } from '@ant-design/icons';
 import { Drawer, Layout, Menu } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
-import Chat from '../../scenes/Chat/Chat';
-import styles from './Dashboard.module.scss';
 import useWindowSize from '../../hooks/useWindowSize';
+import Chat from '../../scenes/Chat/Chat';
+import Files from '../../scenes/Files/Files';
+import Projects from '../../scenes/Projects/Projects';
+import styles from './Dashboard.module.scss';
 
 const { Header, Sider, Content } = Layout;
 
@@ -24,7 +26,7 @@ export default function Dashboard() {
     let location = useLocation();
 
     const toggle = () => {
-        if (width > 760) {
+        if (width > 980) {
             setIsCollapsed(!isCollapsed)
         } else {
             setVisible(!visible)
@@ -40,7 +42,7 @@ export default function Dashboard() {
     return (
         <Layout className={styles.container}>
             {
-                width > 761 && <Sider trigger={null} collapsible collapsed={isCollapsed}>
+                width > 981 && <Sider trigger={null} collapsible collapsed={isCollapsed}>
                     {!isCollapsed ? <div className={styles.logo}><p>Text/Logo</p></div> : <div className={styles.empty__logo}></div>}
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
                         <Menu.Item key={'/dashboard'} icon={<ProjectOutlined />}>
@@ -54,7 +56,7 @@ export default function Dashboard() {
             }
 
             {
-                width <= 760 &&
+                width <= 980 &&
                 <Drawer
                     title="Menu"
                     placement="right"
@@ -76,19 +78,23 @@ export default function Dashboard() {
             }
 
             <Layout className="site-layout">
+
                 <Header className={styles.header} >
                     <MenuOutlined onClick={toggle} className={styles.menu__outlined} />
-                    <UserOutlined className={styles.avatar} />
+                    {/* <UserOutlined className={styles.avatar} /> */}
                 </Header>
                 <Content
                     className={styles.content}
                 >
                     <Switch>
                         <Route path={path} exact >
-                            <p>yes I can see all projects</p>
+                            <Projects />
                         </Route>
                         <Route path={`${path}/chat`}  >
                             <Chat />
+                        </Route>
+                        <Route path={`${path}/project/:projectid/files`}  >
+                            <Files />
                         </Route>
                     </Switch>
                 </Content>

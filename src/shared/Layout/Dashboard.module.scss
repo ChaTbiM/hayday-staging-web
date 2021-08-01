@@ -23,18 +23,18 @@
 
 /* -------------------------------------------------------------------------------  */
 
-.header,
-.content {
+.header {
     background-color: white;
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
+    display: flex;
+        align-items: center;
+        justify-content: space-between;
 }
 
 /* header */
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+// .header {
+//    
+// }
 
 .drawer {
     :global {
@@ -44,12 +44,31 @@
     }
 }
 
-.avatar,
-.menu__outlined1 {
+.avatar {
     font-size: 1.5rem;
 }
 
-/* content */
-.content {
-    margin: 1.5rem 1rem;
+
+.menu__outlined {
+    font-size: 1.4rem;
 }
+
+/* content */
+
+.content {
+    margin: 2.5rem 1rem;
+}
+
+@media only screen and (min-width: 980px) {
+    .content {
+        margin: 2.5rem;
+    }
+
+.header {
+    padding: 0 2.3rem;
+
+}
+    
+}
+
+

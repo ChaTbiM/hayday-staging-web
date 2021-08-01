@@ -9,6 +9,8 @@ import styles from "./Login.module.scss";
 function Login() {
     const history = useHistory();
     const [unauthorized, setUnauthorized] = useState(false);
+    const [serverError, setServerError] = useState(false);
+
 
     const onSubmitHandler = (values) => {
         http.post('auth/login', values)
@@ -19,17 +21,31 @@ function Login() {
             }).then(() => {
                 history.push('/dashboard')
             }).catch(error => {
-                if (error.response.status === 401) {
-                    setUnauthorized(true)
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        setUnauthorized(true)
+                    }
+                } else {
+                    setServerError(true)
                 }
             })
     };
+
 
     const openUnauthorizedNotification = () => {
         notification['error']({
             message: 'Unauthorized !',
             description:
                 'Wrong Email or Password ! Please Try Again.',
+        });
+    };
+
+    const openServerErrorNotification = () => {
+        notification['error']({
+            message: 'Server is down !',
+            description:
+                `Something went wrong, 
+                please try again in a while.`,
         });
     };
 
@@ -42,6 +58,15 @@ function Login() {
             setUnauthorized(false)
         }
     }, [unauthorized])
+
+    useEffect(() => {
+        if (serverError) {
+            openServerErrorNotification();
+        }
+        return () => {
+            setUnauthorized(false)
+        }
+    }, [serverError])
 
     return (
         <div className={styles.page}>
