@@ -27,13 +27,13 @@
     background-color: white;
     padding: 0 1.25rem;
     display: flex;
-        align-items: center;
-        justify-content: space-between;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* header */
 // .header {
-//    
+//
 // }
 
 .drawer {
@@ -48,7 +48,6 @@
     font-size: 1.5rem;
 }
 
-
 .menu__outlined {
     font-size: 1.4rem;
 }
@@ -56,7 +55,8 @@
 /* content */
 
 .content {
-    margin: 2.5rem 1rem;
+    margin: 2.5rem 0;
+    margin-bottom: 0;
 }
 
 @media only screen and (min-width: 980px) {
@@ -64,11 +64,7 @@
         margin: 2.5rem;
     }
 
-.header {
-    padding: 0 2.3rem;
-
+    .header {
+        padding: 0 2.3rem;
+    }
 }
-    
-}
-
-
