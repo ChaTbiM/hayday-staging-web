@@ -1,16 +1,29 @@
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import ConversationList from '../../components/ConversationList/ConversationList';
+import MessageList from '../../components/MessageList/MessageList';
+import SendMessage from '../../components/SendMessage/SendMessage';
 import useWindowSize from '../../hooks/useWindowSize';
 import styles from './Chat.module.scss';
+
 const { Search } = Input;
 
 export default function Chat() {
 
-    const { url } = useRouteMatch();
     const { width } = useWindowSize();
 
-    const [isVisible, setIsVisible] = useState(false)
+    const [isVisible, setIsVisible] = useState(true)
+
+    const showConversationList = () => {
+        setIsVisible(true);
+    }
+
+    const hideConversationList = () => {
+        setIsVisible(false);
+    }
+
     const onSearch = (val) => {
         console.log(val)
     }
@@ -25,32 +38,30 @@ export default function Chat() {
                         <Search placeholder="Search For Project.." onSearch={onSearch} style={{ width: 200 }} />
                     </div>
                     <div className={styles.conversation__list}>
-                        <p>conversation__list</p>
+                        <ConversationList onConversationClicked={hideConversationList} />
                     </div>
                 </div>)
             }
 
             {
-                (!isVisible || width > 1000) &&
+                (!isVisible || width >= 1000) &&
                 (<div className={styles.container__right}>
                     <div className={styles.project}>
-                        <p className={styles.project__title}>Project [#98182134]</p>
+                        <span className={styles.project__header}>
+                            {width < 1000 && <ArrowLeftOutlined onClick={showConversationList} className={styles.project__header__arrow} />}
+                            <p className={styles.project__title}>Project [#98182134]</p>
+                        </span>
                         <div className={styles.project__actions}>
                             <Space size={8} >
                                 <Button type="primary">mark as completed</Button>
-                                <Button><Link to={`${url}/project/15/files`}>Files</Link> </Button>
+                                <Button><Link to={`/dashboard/project/15/files`}>Files</Link> </Button>
                             </Space>
                         </div>
 
                     </div>
                     <div className={styles.messages__container}>
-                        {/* messages */}
-                        <div>messages</div>
-                        <div>
-                            <div>messages box</div>
-                            <div>messages box</div>
-                            <div>messages box</div>
-                        </div>
+                        <MessageList />
+                        <SendMessage />
                     </div>
                 </div>)
             }

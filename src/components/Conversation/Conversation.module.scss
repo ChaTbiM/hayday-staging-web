@@ -1,0 +1,41 @@
+.container {
+    padding: 1.875rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.container:not(:last-child) {
+    border-bottom: solid 1px #707070;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #1e1e2d;
+    height: 40px;
+    width: 40px;
+    border-radius: 1000px;
+    margin-right: 1rem;
+}
+
+.name {
+    font-size: 1rem;
+}
+
+.project__title {
+    font-size: 1rem;
+    margin: 0;
+    // margin-bottom: 1rem;
+}
+
+.message {
+    margin: 0;
+}
+
+.active {
+    background-color: #e9eaf2;
+}

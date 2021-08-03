@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+}
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #1e1e2d;
+    height: 40px;
+    width: 40px;
+    border-radius: 1000px;
+    margin-right: 1rem;
+}
+
+.name {
+    font-size: 1rem;
+}
+
+// Content
+.message {
+    background-color: #fff;
+    padding: 0.25rem 1rem ;
+    font-size: 1rem;
+    border:solid 1px #707070;
+    border-radius: 25px;
+    margin-bottom: 0.75rem;
+}

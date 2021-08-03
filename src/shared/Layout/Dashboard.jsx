@@ -1,4 +1,4 @@
-import { MenuOutlined, MessageOutlined, ProjectOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined, MessageOutlined, ProjectOutlined } from '@ant-design/icons';
 import { Drawer, Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
@@ -26,7 +26,7 @@ export default function Dashboard() {
     let location = useLocation();
 
     const toggle = () => {
-        if (width > 980) {
+        if (width > 1000) {
             setIsCollapsed(!isCollapsed)
         } else {
             setVisible(!visible)
@@ -42,7 +42,7 @@ export default function Dashboard() {
     return (
         <Layout className={styles.container}>
             {
-                width > 981 && <Sider trigger={null} collapsible collapsed={isCollapsed}>
+                width > 1001 && <Sider trigger={null} collapsible collapsed={isCollapsed}>
                     {!isCollapsed ? <div className={styles.logo}><p>Text/Logo</p></div> : <div className={styles.empty__logo}></div>}
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
                         <Menu.Item key={'/dashboard'} icon={<ProjectOutlined />}>
@@ -56,7 +56,7 @@ export default function Dashboard() {
             }
 
             {
-                width <= 980 &&
+                width <= 1000 &&
                 <Drawer
                     title="Menu"
                     placement="right"

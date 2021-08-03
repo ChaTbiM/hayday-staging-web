@@ -1,0 +1,17 @@
+.container {
+    padding: 1.875rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    margin-bottom: 0;
+    flex-basis: 100%;
+}
+
+.add__files,
+.send {
+    color: #6576ff;
+    font-size: 1.8rem;
+}
