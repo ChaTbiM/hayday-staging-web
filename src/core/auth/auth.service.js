@@ -14,7 +14,7 @@ const getStoredToken = () => {
 const getAuthHeader = () => {
     const token = getStoredToken();
     if (token) {
-        return { 'Authorization': `JWT ${token}` };
+        return { 'Authorization': `Bearer ${token}` };
     } else {
         return {};
     }

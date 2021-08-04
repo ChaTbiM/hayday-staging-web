@@ -5,11 +5,16 @@ import './App.scss';
 import 'antd/dist/antd.css';
 import Login from './scenes/Login/Login';
 import Dashboard from './shared/Layout/Dashboard';
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+
+const queryClient = new QueryClient();
 
 function App() {
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Switch>
           <Route path="/" exact>
@@ -23,7 +28,8 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
