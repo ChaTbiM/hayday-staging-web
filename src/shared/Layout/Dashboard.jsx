@@ -2,6 +2,7 @@ import { MenuOutlined, MessageOutlined, ProjectOutlined } from '@ant-design/icon
 import { Drawer, Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
+import { ChatProvider } from '../../hooks/chat-context';
 import useWindowSize from '../../hooks/useWindowSize';
 import Chat from '../../scenes/Chat/Chat';
 import Files from '../../scenes/Files/Files';
@@ -91,7 +92,9 @@ export default function Dashboard() {
                             <Projects />
                         </Route>
                         <Route path={`${path}/chat`}  >
-                            <Chat />
+                            <ChatProvider>
+                                <Chat />
+                            </ChatProvider>
                         </Route>
                         <Route path={`${path}/project/:projectid/files`}  >
                             <Files />

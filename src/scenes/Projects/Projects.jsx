@@ -6,14 +6,13 @@ import styles from './Projects.module.scss'
 
 export default function Projects() {
     const { data: projects, isLoading } = useProjects()
-    console.log("project", projects)
     return (
         <div className={styles.container}>
             { !!(projects?.length) &&
                 <Row gutter={[24, 24]}>
                     {projects.map((project) => {
                         return (
-                            <Col key={`project-${project.id}`} project={project} className="gutter-row" xs={24} md={12} >
+                            <Col key={`project-${project.id}`} className="gutter-row" xs={24} md={12} >
                                 <ProjectCard project={project} />
                             </Col>
                         )

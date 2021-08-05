@@ -1,16 +1,18 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConversationList from '../../components/ConversationList/ConversationList';
 import MessageList from '../../components/MessageList/MessageList';
 import SendMessage from '../../components/SendMessage/SendMessage';
+import { useChat } from '../../hooks/chat-context';
 import useWindowSize from '../../hooks/useWindowSize';
 import styles from './Chat.module.scss';
 
 const { Search } = Input;
 
 export default function Chat() {
+    const { state } = useChat();
 
     const { width } = useWindowSize();
 
@@ -28,9 +30,13 @@ export default function Chat() {
         console.log(val)
     }
 
+    useEffect(() => {
+        console.log("roomId", state.roomId)
+    }, [state.roomId])
+
+
     return (
         <div className={styles.container}>
-
             {
                 (isVisible || width > 1000) &&
                 (<div className={styles.container__left}>
@@ -60,8 +66,17 @@ export default function Chat() {
 
                     </div>
                     <div className={styles.messages__container}>
-                        <MessageList />
-                        <SendMessage />
+                        {
+                            state.roomId &&
+                            <>
+                                <MessageList />
+                                <SendMessage />
+                            </>
+                        }
+                        {
+                            !(state.roomId) &&
+                            <div style={{ textAlign: 'center', marginTop: "1.875rem" }}>you don't have any project to chat about </div>
+                        }
                     </div>
                 </div>)
             }

@@ -7,7 +7,7 @@ import styles from './ProjectCard.module.scss';
 
 export default function ProjectCard({ project }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [userRole, setUserRole] = useState(getStoredUser().role);
+    const [userRole] = useState(getStoredUser().role);
     const { url } = useRouteMatch();
     const showModal = () => {
         setIsModalVisible(true)
