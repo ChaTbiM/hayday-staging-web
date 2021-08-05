@@ -8,7 +8,8 @@ function ChatReducer(state, action) {
       return { ...state, roomId: action.payload }
     }
     case 'addMessage': {
-      const updatedMessages = state.messages.push(action.payload)
+      const updatedMessages = [...state.messages, action.payload]
+      console.log("asdas", updatedMessages)
       return { ...state, messages: updatedMessages }
     }
     case 'setProjects': {
@@ -21,17 +22,17 @@ function ChatReducer(state, action) {
 }
 
 const testMessages = [
-  { content: "message 1", from: 2, to: 5 },
-  { content: "message 2", from: 2, to: 5 },
-  { content: "message 3", from: 2, to: 5 },
-  { content: "message 4", from: 5, to: 2 },
-  { content: "message 5", from: 5, to: 2 },
-  { content: "message 6", from: 5, to: 2 },
+  { content: "message 1", from: 2 },
+  { content: "message 2", from: 2 },
+  { content: "message 3", from: 2 },
+  { content: "message 4", from: 5 },
+  { content: "message 5", from: 5 },
+  { content: "message 6", from: 5 },
 ]
 
 const initialState = {
   roomId: null,
-  messages: testMessages,
+  messages: [],
   projects: null
 }
 
@@ -50,3 +51,4 @@ function useChat() {
 }
 
 export { ChatProvider, useChat }
+

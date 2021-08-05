@@ -9,29 +9,35 @@ import styles from './MessageList.module.scss'
 
 export default function MessageList() {
 
-    const { state: { messages } } = useChat();
-    const [messageRole, setMessageRole] = useState(null);
+    const { state: { messages }, dispatch } = useChat();
     const [userId] = useState(getStoredUser().id)
-    // useEffect(() => {
-    //     socket.on("message", (data) => {
-    //         console.log("data", data)
-    //     })
-    // }, [])
+
+    useEffect(() => {
+        socket.on("message", (data) => {
+            dispatch({ type: "addMessage", payload: data })
+        })
+    }, [])
+
+    useEffect(() => {
+
+    }, [messages])
 
     return (
-        <div className={styles.container}>
-            {
-                messages.map((message, index) => {
-                    if (message.to === userId) {
-                        if ((index > 0 && messages[index - 1].to !== userId) || (index === 0 && message.to === userId)) {
-                            return <ReceivedMessage message={message.content} firstMessage key={`message-${index}`} />
+        <>
+            <div className={styles.container}>
+                {(messages?.length > 0) &&
+                    messages.map((message, index) => {
+                        if (message.from != userId) {
+                            if ((index > 0 && messages[index - 1].from == userId) || (index == 0 && message.from != userId)) {
+                                return <ReceivedMessage message={message.content} firstMessage key={`message-${index}`} />
+                            }
+                            return <ReceivedMessage message={message.content} firstMessage={false} key={`message-${index}`} />
+                        } else if (message.from == userId) {
+                            return <SentMessage message={message.content} key={`message-${index}`} />
                         }
-                        return <ReceivedMessage message={message.content} firstMessage={false} key={`message-${index}`} />
-                    } else {
-                        return <SentMessage message={message.content} key={`message-${index}`} />
-                    }
-                })
-            }
-        </div>
+                    })
+                }
+            </div>
+        </>
     )
 }
