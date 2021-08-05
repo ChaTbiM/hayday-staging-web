@@ -3,7 +3,7 @@ import styles from './Conversation.module.scss';
 
 export default function Conversation({ onClickHandler, project }) {
     return (
-        <div onClick={onClickHandler} className={`${styles.container} styles.active`}>
+        <div onClick={() => onClickHandler(project.id)} className={`${styles.container} styles.active`}>
             <div className={styles.circle}>
                 <span className={styles.name}>HY</span>
             </div>

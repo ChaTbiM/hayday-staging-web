@@ -91,11 +91,11 @@ export default function Dashboard() {
                         <Route path={path} exact >
                             <Projects />
                         </Route>
-                        <Route path={`${path}/chat`}  >
-                            <ChatProvider>
+                        <ChatProvider>
+                            <Route path={`${path}/chat`}  >
                                 <Chat />
-                            </ChatProvider>
-                        </Route>
+                            </Route>
+                        </ChatProvider>
                         <Route path={`${path}/project/:projectid/files`}  >
                             <Files />
                         </Route>

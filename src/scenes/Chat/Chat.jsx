@@ -6,13 +6,18 @@ import ConversationList from '../../components/ConversationList/ConversationList
 import MessageList from '../../components/MessageList/MessageList';
 import SendMessage from '../../components/SendMessage/SendMessage';
 import { useChat } from '../../hooks/chat-context';
+import useProjects from '../../hooks/useProjects';
 import useWindowSize from '../../hooks/useWindowSize';
 import styles from './Chat.module.scss';
+
+
+
 
 const { Search } = Input;
 
 export default function Chat() {
-    const { state } = useChat();
+    const { data: projects } = useProjects()
+    const { state, dispatch } = useChat();
 
     const { width } = useWindowSize();
 
@@ -26,14 +31,21 @@ export default function Chat() {
         setIsVisible(false);
     }
 
+    const onConversationClicked = (roomId) => {
+        hideConversationList();
+        dispatch({ type: "setRoomId", payload: roomId })
+    }
+
     const onSearch = (val) => {
         console.log(val)
     }
 
     useEffect(() => {
-        console.log("roomId", state.roomId)
-    }, [state.roomId])
-
+        if (projects) {
+            dispatch({ type: "setProjects", payload: projects })
+            dispatch({ type: "setRoomId", payload: projects[0].id })
+        }
+    }, [projects])
 
     return (
         <div className={styles.container}>
@@ -44,7 +56,7 @@ export default function Chat() {
                         <Search placeholder="Search For Project.." onSearch={onSearch} style={{ width: 200 }} />
                     </div>
                     <div className={styles.conversation__list}>
-                        <ConversationList onConversationClicked={hideConversationList} />
+                        <ConversationList onConversationClicked={onConversationClicked} />
                     </div>
                 </div>)
             }
