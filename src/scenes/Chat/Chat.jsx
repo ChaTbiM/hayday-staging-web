@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import ConversationList from '../../components/ConversationList/ConversationList';
 import MessageList from '../../components/MessageList/MessageList';
 import SendMessage from '../../components/SendMessage/SendMessage';
+import { getStoredUser } from '../../core/auth/auth.service';
+import socket from '../../core/socket';
 import { useChat } from '../../hooks/chat-context';
 import useProjects from '../../hooks/useProjects';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -22,6 +24,7 @@ export default function Chat() {
     const { width } = useWindowSize();
 
     const [isVisible, setIsVisible] = useState(true)
+    const [userId] = useState(getStoredUser().id);
 
     const showConversationList = () => {
         setIsVisible(true);
@@ -47,6 +50,14 @@ export default function Chat() {
         }
     }, [projects])
 
+    useEffect(() => {
+        socket.disconnect();
+        if (state.roomId) {
+            socket.auth = { userId, roomId: state.roomId }
+            socket.connect();
+        }
+    }, [state.roomId])
+    
     return (
         <div className={styles.container}>
             {

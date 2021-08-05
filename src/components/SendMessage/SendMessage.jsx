@@ -1,15 +1,17 @@
 import { RightCircleFilled } from '@ant-design/icons';
 import { Input } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
+import { getStoredUser } from '../../core/auth/auth.service';
 import socket from '../../core/socket';
 import styles from './SendMessage.module.scss';
 
 
 
 export default function SendMessage() {
+    const [userId] = useState(getStoredUser().id);
+
     const sendMessageHandler = () => {
-        console.log("message is sent")
-        socket.emit("message", { content: "message is sent" })
+        socket.emit("message", { content: "message is sent", from: userId })
     }
     return (
         <div className={styles.container}>

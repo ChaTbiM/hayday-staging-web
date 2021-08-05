@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getStoredUser } from '../../core/auth/auth.service';
+import socket from '../../core/socket';
+import { useChat } from '../../hooks/chat-context';
 import styles from './Conversation.module.scss';
 
 export default function Conversation({ onClickHandler, project }) {
