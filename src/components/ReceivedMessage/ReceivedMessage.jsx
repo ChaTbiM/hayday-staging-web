@@ -10,9 +10,9 @@ export default function ReceivedMessage({ firstMessage, message }) {
             </div>
             <div className={styles.content__container}>
                 <p className={styles.message}>{message}</p>
-                {/* <p className={styles.message}>message</p> */}
-                {/* <p className={styles.message}>message</p> */}
             </div>
         </div>
     )
 }
+
+export const MemoizedReceivedMessage = React.memo(ReceivedMessage)

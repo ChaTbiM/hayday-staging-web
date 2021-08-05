@@ -13,11 +13,11 @@ export default function SendMessage() {
     const { dispatch } = useChat();
     const [messageContent, setMessageContent] = useState("");
 
-    const sendMessage =  () => {
+    const sendMessage = () => {
         const message = { content: messageContent, from: Number(userId) }
         socket.emit("message", message)
-         dispatch({ type: "addMessage", payload: message })
         setMessageContent("")
+        dispatch({ type: "addMessage", payload: message })
     }
 
     const sendMessageMouseHandler = () => {
@@ -25,7 +25,7 @@ export default function SendMessage() {
     }
 
     const sendMessageKeyHandler = (event) => {
-        if (event.charCode == 13) {
+        if (Number(event.charCode) === 13) {
             sendMessage()
         }
     }
