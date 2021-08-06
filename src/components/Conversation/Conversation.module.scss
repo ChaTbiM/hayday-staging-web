@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.active_conversation {
+    background-color: #e9eaf2;
+}
+
 .container:not(:last-child) {
     border-bottom: solid 1px #707070;
 }

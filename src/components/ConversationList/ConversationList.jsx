@@ -1,11 +1,9 @@
 import React from 'react'
-import { useChat } from '../../hooks/chat-context'
 import Conversation from '../Conversation/Conversation'
 
 
 
-export default function ConversationList({ onConversationClicked }) {
-    const { state: { projects } } = useChat();
+export default function ConversationList({ onConversationClicked, projects }) {
 
     return (
         <>

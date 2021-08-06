@@ -7,7 +7,7 @@ import SendMessage from '../SendMessage/SendMessage';
 
 export default function MessagesContainer({ roomId }) {
     const { dispatch } = useChat();
-    const { data: messages } = useMessages(roomId)
+    const { data: messages , refetch } = useMessages(roomId)
 
     useEffect(() => {
         socket.on("message", (data) => {
@@ -18,10 +18,14 @@ export default function MessagesContainer({ roomId }) {
         }
     }, [dispatch])
 
+    useEffect(() => {
+        refetch();
+    }, [roomId,refetch])
+
     return (
-        <>
+        <>  
             <MessageList messages={messages} />
-            <SendMessage />
+            <SendMessage roomId={roomId} />
         </>
     )
 }

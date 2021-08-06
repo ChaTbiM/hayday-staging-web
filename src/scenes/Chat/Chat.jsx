@@ -10,11 +10,8 @@ import { useChat } from '../../hooks/chat-context';
 import useProjects from '../../hooks/useProjects';
 import useWindowSize from '../../hooks/useWindowSize';
 import styles from './Chat.module.scss';
-
-
-
-
 const { Search } = Input;
+
 
 export default function Chat() {
     const { data: projects } = useProjects()
@@ -70,7 +67,7 @@ export default function Chat() {
                         <Search placeholder="Search For Project.." onSearch={onSearch} style={{ width: 200 }} />
                     </div>
                     <div className={styles.conversation__list}>
-                        <ConversationList onConversationClicked={onConversationClicked} />
+                        <ConversationList projects={projects} onConversationClicked={onConversationClicked} />
                     </div>
                 </div>)
             }

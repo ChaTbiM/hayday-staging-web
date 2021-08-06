@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { getStoredUser } from '../../core/auth/auth.service'
 import { MemoizedReceivedMessage } from '../ReceivedMessage/ReceivedMessage'
 import { MemoizedSentMessage } from '../SentMessage/SentMessage'

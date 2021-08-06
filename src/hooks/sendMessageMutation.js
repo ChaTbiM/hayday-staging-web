@@ -1,33 +1,35 @@
-import { useMutation, useQuery } from "react-query";
 import { queryClient } from "../App";
 import http from "../axios.config";
 import { getAuthHeader } from "../core/auth/auth.service";
 
-// const sendMessage = async (projectId, fromId, content) => {
-//     const { data } = await http.post(
-//         `/message`, { projectId, fromId, content }
-//         , { headers: getAuthHeader() });
-//     return await data;
-// };
 
-const sendMessage = (projectId, fromId, content) => {
+const sendMessageRequest = (message) => {
     return http.post(
-        `/message`, { projectId, fromId, content }
+        `/message`, { ...message }
         , { headers: getAuthHeader() });
 }
 
-const sendMessageMutationOptions = {
-    onMutate: async (data) => {
-        console.log('data', data)
-        // await queryClient.cancelQueries("messages")
+const sendMessageMutationOptions =
+{
+    onMutate: async newMessage => {
+        await queryClient.cancelQueries('messages')
 
-        // queryClient.setQueryData('todos', old => ({
-        //     ...old,
-        //     items: [...old.items, text],
-        //   }))
+        const previousMessages = queryClient.getQueryData('messages')
 
-        return null
-    }
+        queryClient.setQueryData('messages', oldMessages => {
+            const messageWithUser = { ...newMessage, from: { id:newMessage.fromId } }
+            return [...oldMessages, messageWithUser]
+        }
+        )
+
+        return previousMessages
+    },
+    onError: (err, variables, previousMessages) =>
+        queryClient.setQueryData('messages', previousMessages),
+    onSettled: () => {
+        queryClient.invalidateQueries('messages')
+    },
 }
 
-export { sendMessageMutationOptions, sendMessage };
+export { sendMessageMutationOptions, sendMessageRequest };
+
