@@ -1,5 +1,4 @@
-import * as React from 'react'
-import logger from 'use-reducer-logger';
+import * as React from 'react';
 
 const ChatContext = React.createContext()
 
@@ -27,7 +26,7 @@ const initialState = {
   projects: []
 }
 function ChatProvider({ children }) {
-  const [state, dispatch] = React.useReducer(logger(ChatReducer), initialState)
+  const [state, dispatch] = React.useReducer(ChatReducer, initialState)
   const value = { state, dispatch }
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>
 }
@@ -40,5 +39,5 @@ function useChat() {
   return context
 }
 
-export { ChatProvider, useChat }
+export { ChatProvider, useChat };
 

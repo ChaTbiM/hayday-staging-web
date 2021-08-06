@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getStoredUser } from '../../core/auth/auth.service'
 import { MemoizedReceivedMessage } from '../ReceivedMessage/ReceivedMessage'
 import { MemoizedSentMessage } from '../SentMessage/SentMessage'
@@ -12,12 +12,12 @@ export default function MessageList({ messages }) {
             <div className={styles.container}>
                 {(messages?.length > 0) &&
                     messages.map((message, index) => {
-                        if (message.from !== userId) {
-                            if ((index > 0 && messages[index - 1].from === userId) || (index === 0 && message.from !== userId)) {
+                        if (message.from.id !== userId) {
+                            if ((index > 0 && messages[index - 1].from.id === userId) || (index === 0 && message.from.id !== userId)) {
                                 return <MemoizedReceivedMessage message={message.content} firstMessage key={`message-${index}`} />
                             }
                             return <MemoizedReceivedMessage message={message.content} firstMessage={false} key={`message-${index}`} />
-                        } else if (message.from === userId) {
+                        } else if (message.from.id === userId) {
                             return <MemoizedSentMessage message={message.content} key={`message-${index}`} />
                         }
                         return null

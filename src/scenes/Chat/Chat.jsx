@@ -94,7 +94,7 @@ export default function Chat() {
                     <div className={styles.messages__container}>
                         {
                             roomId &&
-                            <MessagesContainer />
+                            <MessagesContainer roomId={roomId} />
                         }
                         {
                             !(roomId) &&
