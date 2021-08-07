@@ -5,6 +5,7 @@ const ChatContext = React.createContext()
 function ChatReducer(state, action) {
   switch (action.type) {
     case 'setRoomId': {
+      console.log("roomid", action.payload)
       return { ...state, roomId: action.payload }
     }
     case 'addMessage': {

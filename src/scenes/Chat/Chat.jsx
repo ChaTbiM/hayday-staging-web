@@ -6,6 +6,7 @@ import ConversationList from '../../components/ConversationList/ConversationList
 import MessagesContainer from '../../components/MessagesContainer/MessagesContainer';
 import { getStoredUser } from '../../core/auth/auth.service';
 import socket from '../../core/socket';
+import { useApp } from '../../hooks/app-context';
 import { useChat } from '../../hooks/chat-context';
 import useProjects from '../../hooks/useProjects';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -16,6 +17,11 @@ const { Search } = Input;
 export default function Chat() {
     const { data: projects, refetch } = useProjects()
     const { state: { roomId, isConversationListVisible }, dispatch } = useChat();
+    const { dispatch: dispatchApp } = useApp();
+
+    useEffect(() => {
+        dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat" })
+    }, [dispatchApp])
 
     const { width } = useWindowSize();
 
@@ -31,10 +37,10 @@ export default function Chat() {
 
     useEffect(() => {
         refetch()
-        if (projects) {
+        if (projects && !roomId) {
             dispatch({ type: "setRoomId", payload: projects[0].id })
         }
-    }, [projects, dispatch, refetch])
+    }, [projects, dispatch, refetch, roomId])
 
     useEffect(() => {
         if (roomId) {

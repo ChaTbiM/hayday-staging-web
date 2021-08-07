@@ -1,14 +1,21 @@
 import { Col, Row, Skeleton } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProjectCard from '../../components/ProjectCard/ProjectCard'
+import { useApp } from '../../hooks/app-context'
 import useProjects from '../../hooks/useProjects'
 import styles from './Projects.module.scss'
 
 export default function Projects() {
     const { data: projects, isLoading } = useProjects()
+    const { dispatch: dispatchApp } = useApp();
+
+    useEffect(() => {
+        dispatchApp({ type: "setSelectedKey", payload: "/dashboard" })
+    }, [dispatchApp])
+
     return (
         <div className={styles.container}>
-            { !!(projects?.length) &&
+            {!!(projects?.length) &&
                 <Row gutter={[24, 24]}>
                     {projects.map((project) => {
                         return (

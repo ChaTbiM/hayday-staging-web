@@ -2,6 +2,7 @@ import { MenuOutlined, MessageOutlined, ProjectOutlined, LogoutOutlined } from '
 import { Drawer, Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useApp } from '../../hooks/app-context';
 import { ChatProvider } from '../../hooks/chat-context';
 import useWindowSize from '../../hooks/useWindowSize';
 import Chat from '../../scenes/Chat/Chat';
@@ -17,10 +18,8 @@ export default function Dashboard() {
     const { width } = useWindowSize();
     const { path, url } = useRouteMatch();
     const location = useLocation();
-
     const history = useHistory();
-
-
+    const { state: { selectedKey } } = useApp();
 
     const onClose = () => {
         setVisible(false);
@@ -50,7 +49,7 @@ export default function Dashboard() {
             {
                 width > 1001 && <Sider trigger={null} collapsible collapsed={isCollapsed}>
                     {!isCollapsed ? <div className={styles.logo}><p>Text/Logo</p></div> : <div className={styles.empty__logo}></div>}
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
+                    <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} defaultSelectedKeys={[location.pathname]}>
                         <Menu.Item key={'/dashboard'} icon={<ProjectOutlined />}>
                             <Link to={url} >projects</Link>
                         </Menu.Item>
@@ -99,10 +98,10 @@ export default function Dashboard() {
                     className={styles.content}
                 >
                     <Switch>
-                        <Route path={path} exact >
-                            <Projects />
-                        </Route>
                         <ChatProvider>
+                            <Route path={path} exact >
+                                <Projects />
+                            </Route>
                             <Route path={`${path}/chat`}  >
                                 <Chat />
                             </Route>
