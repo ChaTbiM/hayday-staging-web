@@ -24,9 +24,6 @@ function App() {
           <Route path="/login" >
             <Login />
           </Route>
-          {/* <Route path="/dashboard">
-            <Dashboard />
-          </Route> */}
           <PrivateRoute path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>

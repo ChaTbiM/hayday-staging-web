@@ -1,7 +1,7 @@
-import { MenuOutlined, MessageOutlined, ProjectOutlined } from '@ant-design/icons';
+import { MenuOutlined, MessageOutlined, ProjectOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Drawer, Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { ChatProvider } from '../../hooks/chat-context';
 import useWindowSize from '../../hooks/useWindowSize';
 import Chat from '../../scenes/Chat/Chat';
@@ -13,18 +13,18 @@ const { Header, Sider, Content } = Layout;
 
 export default function Dashboard() {
     const [isCollapsed, setIsCollapsed] = useState(false)
-
     const [visible, setVisible] = useState(true);
-
     const { width } = useWindowSize();
+    const { path, url } = useRouteMatch();
+    const location = useLocation();
+
+    const history = useHistory();
+
+
 
     const onClose = () => {
         setVisible(false);
     };
-
-    let { path, url } = useRouteMatch();
-
-    let location = useLocation();
 
     const toggle = () => {
         if (width > 1000) {
@@ -33,6 +33,11 @@ export default function Dashboard() {
             setVisible(!visible)
         }
     };
+
+    const logoutHandler = () => {
+        localStorage.clear();
+        history.push("/login")
+    }
 
     useEffect(() => {
         setIsCollapsed(false)
@@ -51,6 +56,9 @@ export default function Dashboard() {
                         </Menu.Item>
                         <Menu.Item key={'/dashboard/chat'} icon={<MessageOutlined />}>
                             <Link to={`${url}/chat`} >chat</Link>
+                        </Menu.Item>
+                        <Menu.Item key={'/logout'} onClick={logoutHandler} className={styles.logout} icon={<LogoutOutlined />}>
+                            logout
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -72,6 +80,9 @@ export default function Dashboard() {
                         </Menu.Item>
                         <Menu.Item key={'/dashboard/chat'} icon={<MessageOutlined />}>
                             <Link to={`${url}/chat`} onClick={toggle} >chat</Link>
+                        </Menu.Item>
+                        <Menu.Item key={'/logout'} onClick={logoutHandler} className={styles.logout} icon={<LogoutOutlined />}>
+                            logout
                         </Menu.Item>
                     </Menu>
                 </Drawer>

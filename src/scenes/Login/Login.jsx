@@ -3,7 +3,7 @@ import { Button, Form, Input, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import http from '../../axios.config';
-import { TOKEN } from '../../core/auth/auth.service';
+import { getStoredUser, TOKEN } from '../../core/auth/auth.service';
 import styles from "./Login.module.scss";
 
 function Login() {
@@ -16,7 +16,6 @@ function Login() {
         http.post('auth/login', values)
             .then(res => res.data)
             .then((data) => {
-                localStorage.setItem('user', JSON.stringify(data.user))
                 localStorage.setItem(TOKEN, JSON.stringify(data[TOKEN]))
             }).then(() => {
                 history.push('/dashboard')
@@ -68,7 +67,19 @@ function Login() {
         }
     }, [serverError])
 
+    useEffect(() => {
+        try {
+            const user = getStoredUser();
+            if (user) {
+                history.push('/dashboard')
+            }
+        } catch (error) {
+            return
+        }
+    }, [history])
+
     return (
+        <>
         <div className={styles.page}>
             <div className={styles.login__card}>
                 <p className={styles.welcome}>Welcome</p>
@@ -105,6 +116,7 @@ function Login() {
                 </Form>
             </div>
         </div>
+        </>
     )
 }
 
