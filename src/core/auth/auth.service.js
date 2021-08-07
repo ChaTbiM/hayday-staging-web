@@ -1,13 +1,16 @@
+import jwt from 'jsonwebtoken'
 
-const TOKEN_KEY = "access_token"
+const TOKEN = "access_token"
 
 const getStoredUser = () => {
-    return JSON.parse(localStorage.getItem('user'));
+    const token = getStoredToken();
+    const decoded = jwt.verify(token,"secretKey")
+    return decoded.user
 }
 
 
 const getStoredToken = () => {
-    return JSON.parse(localStorage.getItem(TOKEN_KEY));
+    return JSON.parse(localStorage.getItem(TOKEN));
 }
 
 
@@ -20,4 +23,4 @@ const getAuthHeader = () => {
     }
 }
 
-export { getAuthHeader, getStoredToken, getStoredUser, TOKEN_KEY };
+export { getAuthHeader, getStoredToken, getStoredUser, TOKEN };
