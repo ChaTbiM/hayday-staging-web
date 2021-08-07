@@ -3,15 +3,14 @@ import Conversation from '../Conversation/Conversation'
 
 
 
-export default function ConversationList({ onConversationClicked, projects }) {
-
+export default function ConversationList({ projects, roomId }) {
     return (
         <>
             {(projects?.length > 0) &&
                 <>
                     {projects.map((project) => {
                         return (
-                            <Conversation key={`project-${project.id}`} project={project} onClickHandler={onConversationClicked} />
+                            <Conversation roomId={roomId} key={`project-${project.id}`} project={project} />
                         )
                     })}
                 </>

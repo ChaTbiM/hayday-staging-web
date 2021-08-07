@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getStoredUser } from '../../core/auth/auth.service'
+import useMessages from '../../hooks/useMessages'
 import { MemoizedReceivedMessage } from '../ReceivedMessage/ReceivedMessage'
 import { MemoizedSentMessage } from '../SentMessage/SentMessage'
 import styles from './MessageList.module.scss'
 
-export default function MessageList({ messages }) {
+export default function MessageList({ roomId }) {
     const [userId] = useState(getStoredUser().id)
+    const { data: messages, refetch } = useMessages(roomId)
+
+    useEffect(() => {
+        refetch();
+    }, [roomId,refetch])
 
     return (
         <>

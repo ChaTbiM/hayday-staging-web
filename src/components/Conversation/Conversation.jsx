@@ -1,12 +1,20 @@
 import React from 'react';
 import { useChat } from '../../hooks/chat-context';
+import useWindowSize from '../../hooks/useWindowSize';
+
 import styles from './Conversation.module.scss';
 
-export default function Conversation({ onClickHandler, project }) {
-    const { state: { roomId } } = useChat();
+export default function Conversation({ project, roomId }) {
+    const { dispatch } = useChat();
+    const { width } = useWindowSize()
+
+    const clickHandler = () => {
+        dispatch({ type: "hideConversationList" })
+        dispatch({ type: "setRoomId", payload: project.id })
+    }
 
     return (
-        <div onClick={() => onClickHandler(project.id)} className={(roomId !== project.id ? styles.container : styles.container + ' ' + styles.active_conversation)}>
+        <div onClick={clickHandler} className={(roomId === project.id && width > 1000  ? styles.container + ' ' + styles.active_conversation : styles.container)}>
             <div className={styles.circle}>
                 <span className={styles.name}>HY</span>
             </div>

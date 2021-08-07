@@ -1,30 +1,29 @@
 import React, { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import socket from '../../core/socket';
 import { useChat } from '../../hooks/chat-context';
-import useMessages from '../../hooks/useMessages';
 import MessageList from '../MessageList/MessageList';
 import SendMessage from '../SendMessage/SendMessage';
 
 export default function MessagesContainer({ roomId }) {
+    const queryClient = useQueryClient();
     const { dispatch } = useChat();
-    const { data: messages , refetch } = useMessages(roomId)
 
     useEffect(() => {
-        socket.on("message", (data) => {
-            dispatch({ type: "addMessage", payload: data })
+        socket.on("message", (message) => {
+            queryClient.setQueryData('messages', oldMessages => {
+                return [...oldMessages, message];
+            })
         })
         return () => {
             socket.off("message")
         }
-    }, [dispatch])
+    }, [dispatch, queryClient])
 
-    useEffect(() => {
-        refetch();
-    }, [roomId,refetch])
 
     return (
-        <>  
-            <MessageList messages={messages} />
+        <>
+            <MessageList roomId={roomId} />
             <SendMessage roomId={roomId} />
         </>
     )

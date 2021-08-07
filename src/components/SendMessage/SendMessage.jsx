@@ -1,23 +1,27 @@
 import { RightCircleFilled } from '@ant-design/icons';
 import { Input } from 'antd';
 import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { getStoredUser } from '../../core/auth/auth.service';
 import socket from '../../core/socket';
-import { sendMessageMutationOptions, sendMessageRequest } from '../../hooks/sendMessageMutation';
 import styles from './SendMessage.module.scss';
 
 
 export default function SendMessage({ roomId }) {
-    const [userId] = useState(getStoredUser().id);
+    const queryClient = useQueryClient();
     const [messageContent, setMessageContent] = useState("");
-    const sendMessageMutation = useMutation((message) => sendMessageRequest(message), sendMessageMutationOptions);
 
     const sendMessage = () => {
-        const message = { content: messageContent, from: Number(userId) }
+        const user = getStoredUser();
+        const userId = Number(user.id);
+
+        const message = { projectId: roomId, fromId: Number(userId), content: messageContent, from: user }
         socket.emit("message", message)
         setMessageContent("")
-        sendMessageMutation.mutate({ projectId: roomId, fromId: userId, content: messageContent })
+
+        queryClient.setQueryData('messages', oldMessages => {
+            return [...oldMessages, message];
+        })
     }
 
     const sendMessageMouseHandler = () => {

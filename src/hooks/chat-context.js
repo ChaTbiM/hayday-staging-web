@@ -8,8 +8,13 @@ function ChatReducer(state, action) {
       return { ...state, roomId: action.payload }
     }
     case 'addMessage': {
-      console.log("what")
       return { ...state, messages: [...state.messages, action.payload] }
+    }
+    case 'showConversationList': {
+      return { ...state, isConversationListVisible: true }
+    }
+    case 'hideConversationList': {
+      return { ...state, isConversationListVisible: false }
     }
     case 'setProjects': {
       return { ...state, projects: action.payload }
@@ -22,6 +27,7 @@ function ChatReducer(state, action) {
 
 const initialState = {
   roomId: null,
+  isConversationListVisible: true,
   messages: [],
   projects: []
 }

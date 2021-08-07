@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './ReceivedMessage.module.scss'
 
 export default function ReceivedMessage({ firstMessage, message, user }) {
-    console.log(user, 'user')
     return (
         <div className={styles.container} style={firstMessage ? { marginTop: "1rem" } : null}>
 

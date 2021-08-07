@@ -10,5 +10,5 @@ const getProjects = async () => {
 };
 
 export default function useProjects() {
-    return useQuery("projects", getProjects);
+    return useQuery("projects", getProjects, { manual: true, refetchOnWindowFocus: false });
 }

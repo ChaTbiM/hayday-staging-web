@@ -14,25 +14,15 @@ const { Search } = Input;
 
 
 export default function Chat() {
-    const { data: projects } = useProjects()
-    const { state: { roomId }, dispatch } = useChat();
+    const { data: projects, refetch } = useProjects()
+    const { state: { roomId, isConversationListVisible }, dispatch } = useChat();
 
     const { width } = useWindowSize();
 
-    const [isVisible, setIsVisible] = useState(true)
     const [userId] = useState(getStoredUser().id);
 
     const showConversationList = () => {
-        setIsVisible(true);
-    }
-
-    const hideConversationList = () => {
-        setIsVisible(false);
-    }
-
-    const onConversationClicked = (roomId) => {
-        hideConversationList();
-        dispatch({ type: "setRoomId", payload: roomId })
+        dispatch({ type: "showConversationList" })
     }
 
     const onSearch = (val) => {
@@ -40,15 +30,13 @@ export default function Chat() {
     }
 
     useEffect(() => {
+        refetch()
         if (projects) {
-            dispatch({ type: "setProjects", payload: projects })
             dispatch({ type: "setRoomId", payload: projects[0].id })
         }
-    }, [projects, dispatch])
-
+    }, [projects, dispatch, refetch])
 
     useEffect(() => {
-        socket.disconnect();
         if (roomId) {
             socket.auth = { userId, roomId: roomId }
             socket.connect();
@@ -61,19 +49,19 @@ export default function Chat() {
     return (
         <div className={styles.container}>
             {
-                (isVisible || width > 1000) &&
+                (isConversationListVisible || width > 1000) &&
                 (<div className={styles.container__left}>
                     <div className={styles.search}>
                         <Search placeholder="Search For Project.." onSearch={onSearch} style={{ width: 200 }} />
                     </div>
                     <div className={styles.conversation__list}>
-                        <ConversationList projects={projects} onConversationClicked={onConversationClicked} />
+                        <ConversationList roomId={roomId} projects={projects} />
                     </div>
                 </div>)
             }
 
             {
-                (!isVisible || width >= 1000) &&
+                (!isConversationListVisible || width >= 1000) &&
                 (<div className={styles.container__right}>
                     <div className={styles.project}>
                         <span className={styles.project__header}>

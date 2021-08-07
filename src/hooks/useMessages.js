@@ -10,5 +10,5 @@ const getMessages = async (projectId) => {
 };
 
 export default function useMessages(projectId) {
-    return useQuery("messages", () => getMessages(projectId));
+    return useQuery("messages", () => getMessages(projectId), { manual: true, refetchOnWindowFocus: false });
 }
