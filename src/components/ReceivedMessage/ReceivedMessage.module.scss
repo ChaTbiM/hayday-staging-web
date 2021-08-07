@@ -2,7 +2,10 @@
     display: flex;
     align-items: flex-start;
 }
-.circle {
+
+
+.circle,
+.admin__circle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +17,10 @@
     margin-right: 1rem;
 }
 
+.admin__circle {
+    background-color: #2d1e1e;
+}
+
 .name {
     font-size: 1rem;
 }
@@ -21,9 +28,9 @@
 // Content
 .message {
     background-color: #fff;
-    padding: 0.25rem 1rem ;
+    padding: 0.25rem 1rem;
     font-size: 1rem;
-    border:solid 1px #707070;
+    border: solid 1px #707070;
     border-radius: 25px;
     margin-bottom: 0.75rem;
 }

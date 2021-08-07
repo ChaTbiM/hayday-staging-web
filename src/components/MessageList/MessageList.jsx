@@ -13,10 +13,14 @@ export default function MessageList({ messages }) {
                 {(messages?.length > 0) &&
                     messages.map((message, index) => {
                         if (message.from.id !== userId) {
-                            if ((index > 0 && messages[index - 1].from.id === userId) || (index === 0 && message.from.id !== userId)) {
-                                return <MemoizedReceivedMessage message={message.content} firstMessage key={`message-${index}`} />
+                            if (
+                                (index > 0 && messages[index - 1].from.id === userId) ||
+                                (index === 0 && message.from.id !== userId) ||
+                                (index > 0 && messages[index - 1].from.id !== message.from.id)
+                            ) {
+                                return <MemoizedReceivedMessage user={message.from} message={message.content} firstMessage key={`message-${index}`} />
                             }
-                            return <MemoizedReceivedMessage message={message.content} firstMessage={false} key={`message-${index}`} />
+                            return <MemoizedReceivedMessage user={message.from} message={message.content} firstMessage={false} key={`message-${index}`} />
                         } else if (message.from.id === userId) {
                             return <MemoizedSentMessage message={message.content} key={`message-${index}`} />
                         }
