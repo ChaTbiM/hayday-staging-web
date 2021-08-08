@@ -2,16 +2,19 @@ import { Col, Row, Skeleton } from 'antd'
 import React, { useEffect } from 'react'
 import ProjectCard from '../../components/ProjectCard/ProjectCard'
 import { useApp } from '../../hooks/app-context'
+import { useChat } from '../../hooks/chat-context'
 import useProjects from '../../hooks/useProjects'
 import styles from './Projects.module.scss'
 
 export default function Projects() {
     const { data: projects, isLoading } = useProjects()
     const { dispatch: dispatchApp } = useApp();
+    const { dispatch: dispatchChat } = useChat();
 
     useEffect(() => {
         dispatchApp({ type: "setSelectedKey", payload: "/dashboard" })
-    }, [dispatchApp])
+        dispatchChat({ type: "hideConversationList" })
+    }, [dispatchApp, dispatchChat])
 
     return (
         <div className={styles.container}>

@@ -5,7 +5,6 @@ const AppContext = React.createContext()
 function AppReducer(state, action) {
     switch (action.type) {
         case 'setSelectedKey': {
-            console.log("action ",action.payload)
             return { ...state, selectedKey: action.payload }
         }
         default: {

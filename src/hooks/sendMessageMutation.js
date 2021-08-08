@@ -17,7 +17,6 @@ const sendMessageMutationOptions =
         const previousMessages = queryClient.getQueryData('messages')
 
         queryClient.setQueryData('messages', oldMessages => {
-            console.log("new message", newMessage)
             const messageWithUser = { ...newMessage, from: { id: newMessage.fromId } }
             return [messageWithUser, ...oldMessages]
         }

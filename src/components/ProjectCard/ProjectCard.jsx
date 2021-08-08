@@ -23,8 +23,8 @@ export default function ProjectCard({ project }) {
     }
 
     const onChatClick = () => {
+        dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat/" })
         dispatch({ type: "setRoomId", payload: project.id })
-        dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat" })
     }
 
     return (

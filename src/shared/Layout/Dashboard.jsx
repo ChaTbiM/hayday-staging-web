@@ -73,7 +73,10 @@ export default function Dashboard() {
                     visible={visible}
                     className={styles.drawer}
                 >
-                    <Menu defaultSelectedKeys={[location.pathname]}>
+                    <Menu
+                        selectedKeys={[selectedKey]}
+                        defaultSelectedKeys={[location.pathname]}
+                    >
                         <Menu.Item key={'/dashboard'} icon={<ProjectOutlined />}>
                             <Link to={url} onClick={toggle} >projects</Link>
                         </Menu.Item>
