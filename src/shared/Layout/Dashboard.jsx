@@ -108,10 +108,10 @@ export default function Dashboard() {
                             <Route path={`${path}/chat`}  >
                                 <Chat />
                             </Route>
+                            <Route path={`${path}/project/:projectId/files`}  >
+                                <Files />
+                            </Route>
                         </ChatProvider>
-                        <Route path={`${path}/project/:projectid/files`}  >
-                            <Files />
-                        </Route>
                     </Switch>
                 </Content>
             </Layout>

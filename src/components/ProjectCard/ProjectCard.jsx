@@ -1,7 +1,7 @@
 import { Button, Space } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { getStoredUser } from '../../core/auth/auth.service';
 import { useApp } from '../../hooks/app-context';
 import { useChat } from '../../hooks/chat-context';
@@ -12,7 +12,8 @@ export default function ProjectCard({ project }) {
     const [userRole] = useState(getStoredUser().role);
     const { dispatch } = useChat()
     const { dispatch: dispatchApp } = useApp();
-    const {  url } = useRouteMatch();
+    const { url } = useRouteMatch();
+    const history = useHistory();
 
     const showModal = () => {
         setIsModalVisible(true)
@@ -25,6 +26,10 @@ export default function ProjectCard({ project }) {
     const onChatClick = () => {
         dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat/" })
         dispatch({ type: "setRoomId", payload: project.id })
+    }
+
+    const onFilesClick = () => {
+        history.push(`/dashboard/project/${project.id}/files`)
     }
 
     return (
@@ -42,7 +47,7 @@ export default function ProjectCard({ project }) {
                             <Space size={8}>
                                 <Button onClick={onChatClick} size="large" type="primary">
                                     <Link to={`${url}/chat/`}>Chat</Link></Button>
-                                <Button > <Link to={`${url}/project/15/files`}>Files</Link> </Button>
+                                <Button onClick={onFilesClick}> Files </Button>
                                 <Button onClick={showModal} >Description</Button>
                             </Space>
                         </div>

@@ -18,7 +18,7 @@ export default function Projects() {
 
     return (
         <div className={styles.container}>
-            {!!(projects?.length) &&
+            {projects?.length > 0 &&
                 <Row gutter={[24, 24]}>
                     {projects.map((project) => {
                         return (
