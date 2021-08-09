@@ -20,7 +20,7 @@ export default function Conversation({ project, roomId }) {
             </div>
             <div className={styles.project}>
                 <p className={styles.project__title}>Project {project.id}</p>
-                <p className={styles.message}>latest message here !</p>
+                {/* <p className={styles.message}>latest message here !</p> */}
             </div>
         </div>
     )
