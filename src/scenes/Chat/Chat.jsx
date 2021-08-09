@@ -18,6 +18,8 @@ export default function Chat() {
     const { data: projects, refetch } = useProjects()
     const { state: { roomId, isConversationListVisible }, dispatch } = useChat();
     const { dispatch: dispatchApp } = useApp();
+    const [search, setSearch] = useState(null)
+    const [filteredProjects, setFilteredProjects] = useState(projects)
 
     useEffect(() => {
         dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat" })
@@ -32,8 +34,25 @@ export default function Chat() {
     }
 
     const onSearch = (val) => {
-        console.log(val)
+        setSearch(val);
     }
+
+    useEffect(() => {
+        if (projects && search && search.length !== 0) {
+            console.log("start 0")
+
+            const tempFilteredProjects = projects.filter((project) => {
+                return project.id == search ? true : false;
+            })
+            setFilteredProjects(tempFilteredProjects)
+            if (tempFilteredProjects.length > 0 && roomId !== tempFilteredProjects[0].id) {
+                dispatch({ type: "setRoomId", payload: tempFilteredProjects[0].id })
+            }
+        } else if (projects) {
+            setFilteredProjects(projects);
+        }
+
+    }, [search, projects, dispatch, roomId])
 
     useEffect(() => {
         refetch()
@@ -61,7 +80,7 @@ export default function Chat() {
                         <Search placeholder="Search For Project.." onSearch={onSearch} style={{ width: 200 }} />
                     </div>
                     <div className={styles.conversation__list}>
-                        <ConversationList roomId={roomId} projects={projects} />
+                        <ConversationList roomId={roomId} projects={filteredProjects} />
                     </div>
                 </div>)
             }
@@ -72,12 +91,12 @@ export default function Chat() {
                     <div className={styles.project}>
                         <span className={styles.project__header}>
                             {width < 1000 && <ArrowLeftOutlined onClick={showConversationList} className={styles.project__header__arrow} />}
-                            <p className={styles.project__title}>Project [#currentProjectId]</p>
+                            <p className={styles.project__title}>Project {roomId} </p>
                         </span>
                         <div className={styles.project__actions}>
                             <Space size={8} >
                                 <Button type="primary">mark as completed</Button>
-                                <Button><Link to={`/dashboard/project/15/files`}>Files</Link> </Button>
+                                <Button><Link to={`/dashboard/project/${roomId}/files`}>Files</Link> </Button>
                             </Space>
                         </div>
 
