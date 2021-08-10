@@ -1,7 +1,8 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Input, Space } from 'antd';
+import { Button, Dropdown, Input, Menu, message, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import http from '../../axios.config';
 import ConversationList from '../../components/ConversationList/ConversationList';
 import MessagesContainer from '../../components/MessagesContainer/MessagesContainer';
 import { getStoredUser } from '../../core/auth/auth.service';
@@ -14,12 +15,20 @@ import styles from './Chat.module.scss';
 const { Search } = Input;
 
 
+export const INPROGRESS = "in progress";
+export const COMPLETED = "completed";
+
 export default function Chat() {
+    const [user] = useState(getStoredUser())
+    const [userId] = useState(getStoredUser().id);
+
     const { data: projects, refetch } = useProjects()
     const { state: { roomId, isConversationListVisible }, dispatch } = useChat();
     const { dispatch: dispatchApp } = useApp();
     const [search, setSearch] = useState(null)
     const [filteredProjects, setFilteredProjects] = useState(projects)
+    const [currentSelectedProject, setCurrentSelectedProject] = useState();
+    const history = useHistory();
 
     useEffect(() => {
         dispatchApp({ type: "setSelectedKey", payload: "/dashboard/chat" })
@@ -27,7 +36,8 @@ export default function Chat() {
 
     const { width } = useWindowSize();
 
-    const [userId] = useState(getStoredUser().id);
+
+
 
     const showConversationList = () => {
         dispatch({ type: "showConversationList" })
@@ -35,6 +45,25 @@ export default function Chat() {
 
     const onSearch = (val) => {
         setSearch(val);
+    }
+
+    const updateProjectStatusHandler = () => {
+        if (currentSelectedProject) {
+            const project = currentSelectedProject;
+            const projectId = project.id;
+            project.status = COMPLETED;
+            http.patch(`/project/${projectId}`).then((res) => res.data)
+                .then((data) => {
+                    if (data) {
+                        setCurrentSelectedProject(data)
+                        message.success('the project has been updated !');
+                    }
+                })
+        }
+    }
+
+    const onFilesClick = () => {
+        history.push(`/dashboard/project/${roomId}/files`)
     }
 
     useEffect(() => {
@@ -59,6 +88,11 @@ export default function Chat() {
         if (projects && !roomId) {
             dispatch({ type: "setRoomId", payload: projects[0].id })
         }
+
+        if (projects && roomId) {
+            setCurrentSelectedProject(projects.find((project) => project.id === roomId))
+        }
+
     }, [projects, dispatch, refetch, roomId])
 
     useEffect(() => {
@@ -70,6 +104,19 @@ export default function Chat() {
             socket.disconnect()
         }
     }, [roomId, userId])
+
+    const dropdownMenu = (
+        <Menu >
+            {user.role === "employee" && currentSelectedProject?.status === INPROGRESS &&
+                <Menu.Item key="1" >
+                    <Button type="primary" onClick={updateProjectStatusHandler}>mark as completed</Button>
+                </Menu.Item>
+            }
+            <Menu.Item key="2" >
+                <Button onClick={onFilesClick}> Files </Button>
+            </Menu.Item>
+        </Menu>
+    );
 
     return (
         <div className={styles.container}>
@@ -94,10 +141,23 @@ export default function Chat() {
                             <p className={styles.project__title}>Project {roomId} </p>
                         </span>
                         <div className={styles.project__actions}>
-                            <Space size={8} >
-                                <Button type="primary">mark as completed</Button>
-                                <Button><Link to={`/dashboard/project/${roomId}/files`}>Files</Link> </Button>
-                            </Space>
+                            {
+                                width >= 1000 &&
+                                <Space size={8} >
+                                    {
+                                        user.role === "employee" && currentSelectedProject?.status === INPROGRESS &&
+                                        <Button type="primary" onClick={updateProjectStatusHandler}>mark as completed</Button>
+                                    }
+                                    <Button><Link to={`/dashboard/project/${roomId}/files`}>Files</Link> </Button>
+                                </Space>
+                            }
+                            {
+                                width < 1000 &&
+                                    <Dropdown trigger={['click']} overlay={dropdownMenu}>
+                                        <a>Options</a>
+                                    </Dropdown>
+                            }
+
                         </div>
 
                     </div>
@@ -108,7 +168,7 @@ export default function Chat() {
                         }
                         {
                             !(roomId) &&
-                            <div style={{ textAlign: 'center', marginTop: "1.875rem" }}>you don't have any project to chat about </div>
+                            <div style={{ textAlign: 'center', marginTop: "1.375rem" }}>you don't have any project to chat about </div>
                         }
                     </div>
                 </div>)

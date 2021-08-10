@@ -39,8 +39,12 @@ export default function ProjectCard({ project }) {
                     <div className={styles.container}>
                         <p className={styles.identifier}> Project Identifier : {project.id} </p>
                         <p className={styles.type}> Project Type : {project.type}  </p>
-                        {!(userRole === "client") && (<><p className={styles.client__email}> Client Email : {project.client.email} </p>
-                            <p className={styles.client__phone}> Client Phone : {project.client.phone} </p></>)}
+                        {!(userRole === "client") &&
+                            (<>
+                                <p className={styles.client__email}> Client Email : {project?.client?.email || ''} </p>
+                                <p className={styles.client__phone}> Client Phone : {project?.client?.phone || ''} </p>
+                            </>)
+                        }
                         <p className={styles.status}>Order Date : {project.createdAt} </p>
                         <p className={styles.status}>Status : {project.status}</p>
                         <div>

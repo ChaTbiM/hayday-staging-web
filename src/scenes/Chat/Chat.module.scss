@@ -32,7 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.875rem;
+    padding: 1.375rem;
 }
 
 .conversation__list {
@@ -50,14 +50,14 @@
 .project {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     flex-wrap: wrap;
     border-bottom: solid 1px #707070;
 
+    padding: 1rem;
     @media only screen and (min-width: 1000px) {
-        // min-height: 6.35rem;
+        padding: 1.375rem;
     }
-    padding: 1.875rem;
 }
 
 .project__title {
@@ -80,10 +80,6 @@
 }
 
 .project__actions {
-    margin-top: 1.875rem;
-    @media only screen and (min-width: 1000px) {
-        margin-top: 0;
-    }
 }
 
 .messages__container {
